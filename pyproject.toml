@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "twang"
 version = "0.0.1"
-description = "One-stop shop for messing with music & machine learning"
+description = "One-stop shop for playing with music & machine learning"
 license = "MIT"
 authors = ["mhsb <michael.h.s.ball@gmail.com>"]
 homepage = 'https://github.com/michaelhball/twang'
@@ -11,17 +11,21 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.7"
-backports-cached_property = "^1.0.2"
 Cython = "^0.29.33"
 ffmpeg = "^4.2.2"
+ipython = "^8.10.0"
 librosa = "^0.10.0"
 mido = "^1.2.10"
 pydub = "^0.25.1"
 ruff = "^0.0.252"
+soxbindings = "^1.2.3"
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.2.1"
 pytest-sugar = "^0.9.6"
+
+[tool.poetry.group.nussl.dependencies]
+nussl = "^1.1.9"
 
 [build-system]
 requires = ["poetry-core>=1.1.0"]

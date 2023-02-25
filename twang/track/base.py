@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Any, Optional, Type, TypeVar
+from typing import Any, Optional, Type, TypeVar, Union
 
 from twang.types import AudioFormat
 
@@ -12,22 +12,13 @@ class BaseTrack(ABC):
     # the audio signal; its format depends on the `Track` implementation.
     y: Any
 
-    # sampling rate (TODO: should this be optional)
+    # sampling rate (TODO: should this be non-optional ?)
     sr: Optional[int]
-
-    # TODO: consider whether this should be an attribute
-    # whether or not to use track onsets in feature extraction
-    use_onset: bool
-
-    # TODO: make this non-optional by forcing the Librosa track to also do it
-    audio_format: Optional[AudioFormat]
-
-    # TODO: add ability to slice (using milliseconds) to return a shortened version of the track
 
     @classmethod
     @abstractmethod
     def from_file(cls: Type[_BaseTrack], file_path: str) -> _BaseTrack:
-        """Loads the track from disk"""
+        """Load an audio file from disk."""
         ...
 
     @classmethod
@@ -36,13 +27,17 @@ class BaseTrack(ABC):
         ...
 
     @abstractmethod
-    def save(self, save_path: str, audio_format: Optional[AudioFormat]):
-        """Serializes the track to disk"""
+    def _repr_html_(self) -> str:
         ...
 
     @abstractmethod
-    def display(self):
-        """Displays the Track in a Jupyter environment"""
+    def __getitem__(self, ms_or_slice: Union[int, float, slice]):
+        """A standardised API for slicing the audio into a shorter `BaseTrack`,  or accessing a specific timestamp."""
+        ...
+
+    @abstractmethod
+    def save(self, save_path: str, audio_format: AudioFormat):
+        """Serialize the track to disk."""
         ...
 
     @property
