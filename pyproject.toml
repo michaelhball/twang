@@ -12,6 +12,11 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.7"
 backports-cached_property = "^1.0.2"
+Cython = "^0.29.33"
+ffmpeg = "^4.2.2"
+librosa = "^0.10.0"
+mido = "^1.2.10"
+pydub = "^0.25.1"
 ruff = "^0.0.252"
 
 [tool.poetry.dev-dependencies]
