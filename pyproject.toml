@@ -34,3 +34,19 @@ soxbindings = "^1.2.3"
 [build-system]
 requires = ["poetry-core>=1.1.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+select = ["E", "F", "I", "TID", "W"]
+exclude = [".git", ".ruff_cache", "dist", "docker", "img"]
+fix = false
+ignore-init-module-imports = true
+line-length = 120
+target-version = "py38"  # assume Python 3.8 style
+
+[tool.ruff.flake8-tidy-imports]
+ban-relative-imports = "all"
+
+[tool.ruff.isort]
+combine-as-imports = true
+force-single-line = false
+order-by-type = false
