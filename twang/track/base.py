@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Any, Type, TypeVar, Union
+from typing import Any, Optional, Type, TypeVar, Union
 
 import librosa
 import numpy as np
@@ -21,6 +21,9 @@ class BaseTrack(ABC):
 
     # sampling rate
     sr: int
+
+    # if the track exists on disk, this attribute should store its file path
+    file_path: Optional[str] = None
 
     @classmethod
     @abstractmethod
@@ -69,14 +72,15 @@ class PyDubTrack(BaseTrack):
 
     y: pydub.AudioSegment
 
-    def __init__(self, y: pydub.AudioSegment):
+    def __init__(self, y: pydub.AudioSegment, file_path: Optional[str] = None):
         self.y = y
         self.sr = y.frame_rate
+        self.file_path = file_path
 
     @classmethod
     def from_file(cls, file_path: str, audio_format: AudioFormat = AudioFormat.NONE):
         audio_segment = pydub.AudioSegment.from_file(file_path, format=audio_format.value)
-        return cls(y=audio_segment)
+        return cls(y=audio_segment, file_path=file_path)
 
     @classmethod
     def from_file_snippet(
@@ -100,12 +104,13 @@ class PyDubTrack(BaseTrack):
             y_new[1::2] = y[1]
 
         return cls(
-            pydub.AudioSegment(
+            y=pydub.AudioSegment(
                 y_new.tobytes(),
                 frame_rate=librosa_track.sr,
                 sample_width=y_new.dtype.itemsize,
                 channels=len(y.shape),
-            )
+            ),
+            file_path=librosa_track.file_path,
         )
 
     def to_librosa_track(self) -> "LibrosaTrack":
@@ -136,14 +141,15 @@ class LibrosaTrack(BaseTrack):
 
     y: np.ndarray
 
-    def __init__(self, y: np.ndarray, sr: int, use_onset: bool = False):
+    def __init__(self, y: np.ndarray, sr: int, use_onset: bool = False, file_path: Optional[str] = None):
         self.y = y
         self.sr = sr
         self.use_onset = use_onset
+        self.file_path = file_path
 
     @classmethod
     def from_file(cls, file_path: str, use_onset: bool = False):
-        return cls(*librosa.load(file_path), use_onset=use_onset)
+        return cls(*librosa.load(file_path), use_onset=use_onset, file_path=file_path)
 
     @classmethod
     def from_pydub_track(cls, pydub_track: PyDubTrack, use_onset: bool = False):
@@ -156,7 +162,7 @@ class LibrosaTrack(BaseTrack):
         if pydub_track.y.channels == 2:
             samples = np.array([samples[::2], samples[1::2]])
 
-        return cls(y=samples, sr=pydub_track.sr, use_onset=use_onset)
+        return cls(y=samples, sr=pydub_track.sr, use_onset=use_onset, file_path=pydub_track.file_path)
 
     def _repr_html_(self) -> str:
         return ipd.Audio(self.y, rate=self.sr)._repr_html_()
