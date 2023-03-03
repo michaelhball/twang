@@ -24,6 +24,12 @@ ruff = "^0.0.252"
 pytest = "^7.2.1"
 pytest-sugar = "^0.9.6"
 
+[tool.poetry.group.demucs]
+optional = true
+
+[tool.poetry.group.demucs.dependencies]
+demucs = "^4.0.0"
+
 [tool.poetry.group.nussl]
 optional = true
 
