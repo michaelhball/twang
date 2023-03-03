@@ -48,6 +48,11 @@ class BaseTrack(ABC):
         """
         ...
 
+    @abstractmethod
+    def to_librosa_track(self) -> "LibrosaTrack":
+        """Convert this track to a LibrosaTrack implementation, the implementation used by almost all modules."""
+        ...
+
     @property
     @abstractmethod
     def duration(self) -> float:
@@ -102,6 +107,9 @@ class PyDubTrack(BaseTrack):
                 channels=len(y.shape),
             )
         )
+
+    def to_librosa_track(self) -> "LibrosaTrack":
+        return LibrosaTrack.from_pydub_track(self)
 
     def _repr_html_(self) -> str:
         return self.y._repr_html_()
@@ -164,6 +172,9 @@ class LibrosaTrack(BaseTrack):
             format=audio_format.name,
             subtype="vorbis" if audio_format == AudioFormat.OGG else "PCM_24",
         )
+
+    def to_librosa_track(self) -> "LibrosaTrack":
+        return self
 
     @property
     def duration(self) -> float:
