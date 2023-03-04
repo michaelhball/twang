@@ -121,6 +121,7 @@ class PyDubTrack(BaseTrack):
 
     def __getitem__(self, ms_or_slice: Union[int, slice]):
         """TODO: test & document"""
+        self.file_path = None  # because the object no longer corresponds to the file on disk
         self.y = self.y[ms_or_slice]
         return self
 
