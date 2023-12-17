@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "twang"
-version = "0.0.1"
-description = "Making it easy to mess with music & machine learning"
+version = "0.0.2"
+description = "Machine learning tools for guitarists"
 license = "MIT"
 authors = ["mhsb <michael.h.s.ball@gmail.com>"]
 homepage = 'https://github.com/michaelhball/twang'
@@ -13,11 +13,11 @@ readme = "README.md"
 python = "^3.8"
 Cython = "^0.29.33"
 ipython = "^8.10.0"
-librosa = "^0.10.0"
+librosa = "^0.10.1"
 mido = "^1.2.10"
 pre-commit = "^2.20.0"
 pydub = "^0.25.1"
-ruff = "^0.0.254"
+ruff = "^0.1.8"
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.2.1"
