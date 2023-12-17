@@ -5,4 +5,4 @@
 [![image](https://img.shields.io/pypi/l/twang.svg)](https://pypi.python.org/pypi/twang)
 [![image](https://img.shields.io/pypi/pyversions/twang.svg)](https://pypi.python.org/pypi/twang)
 
-Making it easy to mess with music & machine learning
+Machine learning tools for guitarists.
