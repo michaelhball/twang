@@ -28,6 +28,11 @@ def file_exists(file_path: str) -> bool:
         return Path(file_path).exists()
 
 
+def mkdir(dir_path: str):
+    path = CloudPath(dir_path) if _is_cloud_path(dir_path) else Path(dir_path)
+    path.mkdir(parents=True, exist_ok=True)
+
+
 def load_pickle(file_path: str, **kwargs) -> Any:
     """Load a pickled object from a given file_path, either local or cloud."""
     path = CloudPath(file_path) if _is_cloud_path(file_path) else Path(file_path)
